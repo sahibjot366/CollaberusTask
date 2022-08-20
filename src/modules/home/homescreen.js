@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, FlatList, Text} from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -18,19 +18,49 @@ const HomeScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedItems, setSelectedItems] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
-  const [paginatedData, setPaginatedData] = useState(membersData);
+  const [data, setData] = useState(membersData);
+  const [paginatedData, setPaginatedData] = useState(data);
+  useEffect(() => {
+    setPaginatedData(data);
+  }, [data]);
+
+  console.log(selectedItems);
 
   const updateSearchTerm = newValue => {
     setSearchTerm(newValue);
+    if (newValue == '') {
+      setPaginatedData(membersData);
+      setPageNumber(1);
+    }
   };
 
-  const onButtonPress = () => {};
+  const onButtonPress = () => {
+    const filteredData = data.filter(item => {
+      if (!selectedItems.includes(item.id)) {
+        console.log(item.id);
+        return true;
+      }
+      return false;
+    });
+    setData(filteredData);
+    setSelectedItems([]);
+  };
 
   const onSubmitEditing = () => {
     const filteredData = filterData(searchTerm, paginatedData);
-    console.log(paginatedData);
     setPaginatedData(filteredData);
     setPageNumber(1);
+  };
+
+  const selectDeselectItem = (id, addOrRemove) => {
+    let newSelectedItems;
+    if (addOrRemove) {
+      newSelectedItems = [...selectedItems, id];
+      setSelectedItems(newSelectedItems);
+    } else {
+      newSelectedItems = selectedItems.filter(item => item != id);
+    }
+    setSelectedItems(newSelectedItems);
   };
 
   return (
@@ -70,7 +100,9 @@ const HomeScreen = () => {
         data={paginatedData}
         keyExtractor={item => item.id}
         renderItem={({item}) => {
-          return <ListItem item={item} />;
+          return (
+            <ListItem item={item} selectDeselectItem={selectDeselectItem} />
+          );
         }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: 160}}

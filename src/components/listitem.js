@@ -4,7 +4,7 @@ import CheckBox from '@react-native-community/checkbox';
 
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const ListItem = ({item}) => {
+const ListItem = ({item, selectDeselectItem}) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const backgroundColor = toggleCheckBox ? '#9A9999' : 'white';
   return (
@@ -12,7 +12,10 @@ const ListItem = ({item}) => {
       <View style={[styles.commonStyle, styles.checkBoxViewStyle]}>
         <CheckBox
           value={toggleCheckBox}
-          onValueChange={newValue => setToggleCheckBox(newValue)}
+          onValueChange={newValue => {
+            setToggleCheckBox(newValue);
+            selectDeselectItem(item.id, newValue);
+          }}
         />
       </View>
       <View style={[styles.commonStyle, styles.contentStyle]}>
