@@ -24,8 +24,6 @@ const HomeScreen = () => {
     setPaginatedData(data);
   }, [data]);
 
-  console.log(selectedItems);
-
   const updateSearchTerm = newValue => {
     setSearchTerm(newValue);
     if (newValue == '') {
