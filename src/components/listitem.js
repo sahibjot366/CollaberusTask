@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 const ListItem = ({item}) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
-  const backgroundColor = toggleCheckBox ? '#C6BDBF' : 'white';
+  const backgroundColor = toggleCheckBox ? '#9A9999' : 'white';
   return (
     <View style={[styles.containerStyle, {backgroundColor}]}>
       <View style={[styles.commonStyle, styles.checkBoxViewStyle]}>

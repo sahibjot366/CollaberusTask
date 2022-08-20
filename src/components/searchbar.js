@@ -1,13 +1,15 @@
 import React from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 
-const SearchBar = ({placeholder, callback, value, style}) => {
+const SearchBar = ({placeholder, callback, value, style, onSubmitEditing}) => {
   return (
     <TextInput
       placeholder={placeholder}
       value={value}
       onChangeText={callback}
       style={[styles.inputStyle, style]}
+      returnKeyType="search"
+      onSubmitEditing={onSubmitEditing}
     />
   );
 };
