@@ -12,7 +12,11 @@ const AppNavigator = () => (
       initialRouteName="homescreen"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="homescreen" component={HomeScreen} />
-      <Stack.Screen name="editscreen" component={EditScreen} />
+      <Stack.Screen
+        name="editscreen"
+        component={EditScreen}
+        options={{headerShown: true, title: 'Edit Details'}}
+      />
     </Stack.Navigator>
   </NavigationContainer>
 );

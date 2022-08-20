@@ -3,10 +3,13 @@ import {View, StyleSheet, Text} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
 import Icon from 'react-native-vector-icons/AntDesign';
+import {useNavigation} from '@react-navigation/native';
 
-const ListItem = ({item, selectDeselectItem}) => {
+const ListItem = ({item, selectDeselectItem, deleteItem, updateData}) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const backgroundColor = toggleCheckBox ? '#9A9999' : 'white';
+  const navigation = useNavigation();
+
   return (
     <View style={[styles.containerStyle, {backgroundColor}]}>
       <View style={[styles.commonStyle, styles.checkBoxViewStyle]}>
@@ -25,8 +28,23 @@ const ListItem = ({item, selectDeselectItem}) => {
         <Text>{item.email}</Text>
       </View>
       <View style={[styles.commonStyle, styles.iconsViewStyle]}>
-        <Icon name="edit" size={18} color="black" />
-        <Icon name="delete" size={18} color="red" />
+        <Icon
+          name="edit"
+          size={20}
+          color="black"
+          onPress={() => {
+            navigation.navigate('editscreen', {item, updateData});
+          }}
+          style={styles.iconStyle}
+        />
+        <Icon
+          name="delete"
+          size={20}
+          color="red"
+          onPress={() => {
+            deleteItem(item.id);
+          }}
+        />
       </View>
     </View>
   );
@@ -53,6 +71,7 @@ const styles = StyleSheet.create({
   checkBoxViewStyle: {
     marginLeft: 8,
   },
+  iconStyle: {marginBottom: 4},
 });
 
 export default ListItem;

@@ -44,6 +44,11 @@ const HomeScreen = () => {
     setSelectedItems([]);
   };
 
+  const deleteItem = id => {
+    const filteredData = data.filter(item => item.id != id);
+    setData(filteredData);
+  };
+
   const onSubmitEditing = () => {
     const filteredData = filterData(searchTerm, paginatedData);
     setPaginatedData(filteredData);
@@ -59,6 +64,18 @@ const HomeScreen = () => {
       newSelectedItems = selectedItems.filter(item => item != id);
     }
     setSelectedItems(newSelectedItems);
+  };
+
+  const updateData = (id, name, email, role) => {
+    const updatedData = data.map(item => {
+      if (item.id == id) {
+        item.name = name;
+        item.email = email;
+        item.role = role;
+      }
+      return item;
+    });
+    setData(updatedData);
   };
 
   return (
@@ -99,7 +116,12 @@ const HomeScreen = () => {
         keyExtractor={item => item.id}
         renderItem={({item}) => {
           return (
-            <ListItem item={item} selectDeselectItem={selectDeselectItem} />
+            <ListItem
+              item={item}
+              selectDeselectItem={selectDeselectItem}
+              deleteItem={deleteItem}
+              updateData={updateData}
+            />
           );
         }}
         showsVerticalScrollIndicator={false}
