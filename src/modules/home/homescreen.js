@@ -23,20 +23,19 @@ const HomeScreen = () => {
         placeholder="Search by name, email or role"
         value={searchTerm}
         callback={updateSearchTerm}
+        style={{marginVertical: 18}}
       />
       <FlatList
         data={membersData}
         keyExtractor={item => item.id}
         renderItem={({item}) => {
-          return <ListItem />;
+          return <ListItem item={item} />;
         }}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingBottom: 100}}
       />
       <View style={styles.bottomBarStyle}>
-        <CustomButton
-          title="Delete Selected"
-          callback={onButtonPress}
-          containerStyle={{alignSelf: 'flex-start', marginLeft: 12}}
-        />
+        <CustomButton title="Delete Selected" callback={onButtonPress} />
       </View>
     </View>
   );
@@ -49,8 +48,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   containerStyle: {
-    marginHorizontal: 8,
+    marginHorizontal: 12,
   },
+  listStyle: {},
 });
 
 export default HomeScreen;

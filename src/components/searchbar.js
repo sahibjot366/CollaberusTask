@@ -15,7 +15,7 @@ const SearchBar = ({placeholder, callback, value, style}) => {
 const styles = StyleSheet.create({
   inputStyle: {
     borderRadius: 8,
-    padding: 8,
+    padding: 12,
     fontSize: 18,
     color: 'black',
     backgroundColor: '#B8BBBB',
