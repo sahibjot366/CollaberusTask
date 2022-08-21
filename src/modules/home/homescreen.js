@@ -20,22 +20,15 @@ const HomeScreen = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [data, setData] = useState(membersData);
   const [paginatedData, setPaginatedData] = useState(data);
-  useEffect(() => {
-    setPaginatedData(data);
-  }, [data]);
 
   const updateSearchTerm = newValue => {
     setSearchTerm(newValue);
-    if (newValue == '') {
-      setPaginatedData(membersData);
-      setPageNumber(1);
-    }
+    if (newValue == '') setData(membersData);
   };
 
   const onButtonPress = () => {
     const filteredData = data.filter(item => {
       if (!selectedItems.includes(item.id)) {
-        console.log(item.id);
         return true;
       }
       return false;
@@ -50,8 +43,8 @@ const HomeScreen = () => {
   };
 
   const onSubmitEditing = () => {
-    const filteredData = filterData(searchTerm, paginatedData);
-    setPaginatedData(filteredData);
+    const filteredData = filterData(searchTerm, data);
+    setData(filteredData);
     setPageNumber(1);
   };
 
@@ -77,6 +70,17 @@ const HomeScreen = () => {
     });
     setData(updatedData);
   };
+
+  const paginateData = () => {
+    const lowerBound = (pageNumber - 1) * 10;
+    let upperBound = pageNumber * 10;
+    if (upperBound > data.length) upperBound = data.length;
+
+    setPaginatedData(data.slice(lowerBound, upperBound));
+  };
+  useEffect(() => {
+    paginateData();
+  }, [data, pageNumber]);
 
   return (
     <View style={styles.containerStyle}>
@@ -106,8 +110,10 @@ const HomeScreen = () => {
           <Icon
             name="angle-double-right"
             size={30}
-            color="black"
-            onPress={() => setPageNumber(pageNumber + 1)}
+            color={pageNumber * 10 >= data.length ? '#969696' : 'black'}
+            onPress={() => {
+              if (pageNumber * 10 < data.length) setPageNumber(pageNumber + 1);
+            }}
           />
         </View>
       </View>
